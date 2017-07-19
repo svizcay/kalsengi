@@ -1,0 +1,6 @@
+build
+thirdParty
+
+*.swp
+*.swo
+
