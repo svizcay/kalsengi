@@ -13,10 +13,17 @@ namespace kalsengi
             Shader (std::string pathToVertShader,
                     std::string pathToFragShader);
 
-            void loadShader (std::string pathToSrc, GLenum shaderType);
+            void            loadShader (std::string pathToSrc, GLenum shaderType);
+            void            compile ();
+            void            use ();
+        protected:
+            std::string     readFile (std::string path);
+            bool            compileErrors (GLuint shaderID, GLenum shaderType);
+            bool            linkErrors (GLuint programID);
 
-            void compile ();
-        private:
+            GLuint          _programID;
+
+
 
     };
 }

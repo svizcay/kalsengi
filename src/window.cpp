@@ -19,7 +19,9 @@ Window::Window (uint width, uint height, const char * title, bool fullscreen) :
     const GLFWvidmode * mode = glfwGetVideoMode (primaryMonitor);
 
     if (fullscreen) {
-        context = glfwCreateWindow (mode->width, mode->height, title, primaryMonitor, nullptr);
+        _width = mode->width;
+        _height = mode->height;
+        context = glfwCreateWindow (_width, _height, title, primaryMonitor, nullptr);
     } else {
         context = glfwCreateWindow (width, height, title, nullptr, nullptr);
     }
@@ -28,8 +30,17 @@ Window::Window (uint width, uint height, const char * title, bool fullscreen) :
         cerr << "Failed to create GLFW window" << endl;
     } else {
         glfwMakeContextCurrent (context);
+
+        // glfwSetWindowSizeCallback(context, windowResizeCallback);
+
+        // set initial viewport
+        glfwSetFramebufferSizeCallback (context, framebufferResizeCallback);
+
         if (!gladLoadGL ()) {
             cerr << "Failed to initialize glad" << endl;
+        } else {
+            glViewport (0, 0, _width, _height);
+            setClearColor(0.45f, 0.45f, 0.45f);
         }
     }
 }
@@ -43,4 +54,15 @@ Window::~Window ()
 void Window::setClearColor (float r, float g, float b)
 {
     glClearColor (r, g, b, 1.0f);
+}
+
+void Window::windowResizeCallback (GLFWwindow * /*context*/, int width, int height)
+{
+    cout << "new window's size: " << width << "x" << height << endl;
+}
+
+void Window::framebufferResizeCallback (GLFWwindow * /*context*/, int width, int height)
+{
+    // cout << "new framebuffer's size: " << width << "x" << height << endl;
+    glViewport(0, 0, width, height);
 }

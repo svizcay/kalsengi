@@ -8,10 +8,13 @@
 namespace kalsengi
 {
     class Window {
-        private:
+        protected:
             uint                    _width;
             uint                    _height;
             std::string             _title;
+
+            static void windowResizeCallback (GLFWwindow * context, int width, int height);
+            static void framebufferResizeCallback (GLFWwindow * context, int width, int height);
 
         public:
             Window (uint width, uint height, const char * title, bool fullscreen = false);
