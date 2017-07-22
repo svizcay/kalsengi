@@ -6,7 +6,7 @@ using namespace std;
 
 
 Window::Window (uint width, uint height, const char * title, bool fullscreen) :
-    _width(width), _height(height), _title(title)
+    _width(width), _height(height), _title(title), _okay(false)
 {
     cout << "stating GLFW " << glfwGetVersionString () << endl;
     glfwSetErrorCallback (errorCallback);
@@ -42,6 +42,7 @@ Window::Window (uint width, uint height, const char * title, bool fullscreen) :
         if (!gladLoadGL ()) {
             cerr << "Failed to initialize glad" << endl;
         } else {
+            _okay = true;
             glViewport (0, 0, _width, _height);
             setClearColor(0.45f, 0.45f, 0.45f);
         }
@@ -73,4 +74,53 @@ void Window::framebufferResizeCallback (GLFWwindow * /*context*/, int width, int
 void Window::errorCallback (int error, const char * description)
 {
     cerr << "ERROR: code " << error << ". " << description << endl;
+}
+
+void Window::queryOpenGLInfo ()
+{
+    if (_okay) {
+        GLenum intParams[] = {
+            GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
+            GL_MAX_CUBE_MAP_TEXTURE_SIZE,
+            GL_MAX_DRAW_BUFFERS,
+            GL_MAX_FRAGMENT_UNIFORM_COMPONENTS,
+            GL_MAX_TEXTURE_IMAGE_UNITS,
+            GL_MAX_TEXTURE_SIZE,
+            GL_MAX_VARYING_FLOATS,
+            GL_MAX_VERTEX_ATTRIBS,
+            GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,
+            GL_MAX_VERTEX_UNIFORM_COMPONENTS,
+        };
+        
+        const char* intParamsLabels[] = {
+            "GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS",
+            "GL_MAX_CUBE_MAP_TEXTURE_SIZE",
+            "GL_MAX_DRAW_BUFFERS",
+            "GL_MAX_FRAGMENT_UNIFORM_COMPONENTS",
+            "GL_MAX_TEXTURE_IMAGE_UNITS",
+            "GL_MAX_TEXTURE_SIZE",
+            "GL_MAX_VARYING_FLOATS",
+            "GL_MAX_VERTEX_ATTRIBS",
+            "GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS",
+            "GL_MAX_VERTEX_UNIFORM_COMPONENTS",
+        };
+
+        for (unsigned i = 0; i < 10; i++) {
+            int val = 0;
+            glGetIntegerv (intParams[i], &val);
+            cout << intParamsLabels[i] << ": " << val << endl;
+        }
+
+        int dim[2];
+        glGetIntegerv (GL_MAX_VIEWPORT_DIMS, dim);
+        cout << "GL_MAX_VIEWPORT_DIMS" << ": " << dim[0] << "x" << dim[1] << endl;
+
+        unsigned char val = 0;
+        glGetBooleanv (GL_STEREO, &val);
+        cout << "GL_STEREO" << ": " << (unsigned int) val << endl;
+        
+
+    } else {
+        cerr << "ERROR: OpenGL context could not be initialized." << endl;
+    }
 }

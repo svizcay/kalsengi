@@ -18,6 +18,7 @@ int main (int/*argc*/, char* /*argv*/[])
     int windowHeight = 600;
     const char windowTitle[] = "k a l s e n g i";
     kalsengi::Window window (windowWidth, windowHeight, windowTitle);
+    window.queryOpenGLInfo ();
 
     // TODO: update path using cmake path
     kalsengi::Shader shader ("../src/shaders/01.vert.glsl", "../src/shaders/01.frag.glsl");

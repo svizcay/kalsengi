@@ -12,6 +12,8 @@ namespace kalsengi
             uint                    _width;
             uint                    _height;
             std::string             _title;
+            bool                    _okay;
+
 
             static void windowResizeCallback (GLFWwindow * context, int width, int height);
             static void framebufferResizeCallback (GLFWwindow * context, int width, int height);
@@ -21,6 +23,7 @@ namespace kalsengi
             Window (uint width, uint height, const char * title, bool fullscreen = false);
             ~Window ();
             void setClearColor (float r, float g, float b);
+            void queryOpenGLInfo ();
 
             GLFWwindow * context;
 
