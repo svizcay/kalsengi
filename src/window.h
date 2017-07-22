@@ -15,6 +15,7 @@ namespace kalsengi
 
             static void windowResizeCallback (GLFWwindow * context, int width, int height);
             static void framebufferResizeCallback (GLFWwindow * context, int width, int height);
+            static void errorCallback (int error, const char * description);
 
         public:
             Window (uint width, uint height, const char * title, bool fullscreen = false);

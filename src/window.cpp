@@ -8,6 +8,9 @@ using namespace std;
 Window::Window (uint width, uint height, const char * title, bool fullscreen) :
     _width(width), _height(height), _title(title)
 {
+    cout << "stating GLFW " << glfwGetVersionString () << endl;
+    glfwSetErrorCallback (errorCallback);
+
     glfwInit ();
     glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -65,4 +68,9 @@ void Window::framebufferResizeCallback (GLFWwindow * /*context*/, int width, int
 {
     // cout << "new framebuffer's size: " << width << "x" << height << endl;
     glViewport(0, 0, width, height);
+}
+
+void Window::errorCallback (int error, const char * description)
+{
+    cerr << "ERROR: code " << error << ". " << description << endl;
 }
