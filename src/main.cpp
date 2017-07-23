@@ -3,6 +3,7 @@
 #include "window.h"
 #include "logger.h"
 #include "shader.h"
+#include "time.h"
 
 
 using namespace std;
@@ -63,6 +64,8 @@ int main (int/*argc*/, char* /*argv*/[])
     glPolygonMode (GL_FRONT_AND_BACK, GL_LINE); // other options: GL_FILL
 
     while ( !glfwWindowShouldClose (window.context) ) {
+
+        kalsengi::Time::update ();
 
         processInput (window.context);
 

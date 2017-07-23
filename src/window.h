@@ -24,6 +24,7 @@ namespace kalsengi
             ~Window ();
             void setClearColor (float r, float g, float b);
             void queryOpenGLInfo ();
+            bool isFine ();
 
             GLFWwindow * context;
 

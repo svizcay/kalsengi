@@ -43,7 +43,8 @@ include_directories (include)
 set (PROJECT_SOURCES src/main.cpp
                      src/window.cpp
                      src/logger.cpp
-                     src/shader.cpp)
+                     src/shader.cpp
+                     src/time.cpp)
 set (PROJECT_LIBRARIES glfw)
 
 add_executable (${PROJECT_NAME} ${PROJECT_SOURCES}

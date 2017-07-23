@@ -124,3 +124,8 @@ void Window::queryOpenGLInfo ()
         cerr << "ERROR: OpenGL context could not be initialized." << endl;
     }
 }
+
+bool Window::isFine ()
+{
+    return _okay;
+}
