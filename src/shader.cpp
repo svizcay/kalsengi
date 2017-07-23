@@ -115,3 +115,8 @@ void Shader::use ()
         cerr << "ERROR: trying to use an invalid program." << endl;
     }
 }
+
+GLuint Shader::id ()
+{
+    return _programID;
+}

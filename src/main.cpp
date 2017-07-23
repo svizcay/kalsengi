@@ -1,9 +1,13 @@
 #include <iostream>
+#include <cmath>
 
 #include "window.h"
 #include "logger.h"
 #include "shader.h"
 #include "time.h"
+
+#include "imgui.h"
+#include "imgui_impl_glfw_gl3.h"
 
 
 using namespace std;
@@ -61,11 +65,21 @@ int main (int/*argc*/, char* /*argv*/[])
      * */
     glEnableVertexAttribArray (0);
 
-    glPolygonMode (GL_FRONT_AND_BACK, GL_LINE); // other options: GL_FILL
+    // glPolygonMode (GL_FRONT_AND_BACK, GL_LINE); // other options: GL_FILL
+    glPolygonMode (GL_FRONT_AND_BACK, GL_FILL); // other options: GL_FILL
+
+    GLint colorLoc = glGetUniformLocation (shader.id (), "color");
+
+    // ImGui binding setup
+    ImGui_ImplGlfwGL3_Init (window.context, true);
 
     while ( !glfwWindowShouldClose (window.context) ) {
 
         kalsengi::Time::update ();
+
+        float greenValue = sin (kalsengi::Time::getAbsTime ()) / 2.0f + 0.5f;
+
+        glUniform4f (colorLoc, 0.0f, greenValue, 0.0f, 1.0f);
 
         processInput (window.context);
 
@@ -73,11 +87,21 @@ int main (int/*argc*/, char* /*argv*/[])
 
         glDrawArrays (GL_TRIANGLES, 0, 3);  // 2nd parameter: starting index. 3rd parameter: how many vertices
         glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        
+
+
+        ImGui_ImplGlfwGL3_NewFrame ();
+
+        {
+            ImGui::Text ("hello world");
+        }
+
+        ImGui::Render ();
+
         glfwSwapBuffers (window.context);
         glfwPollEvents ();
     }
 
+    ImGui_ImplGlfwGL3_Shutdown ();
 
     return EXIT_SUCCESS;
 }

@@ -16,6 +16,14 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND NOT WIN32)
 endif ()
 ## end glad
 
+## imgui
+include_directories (thirdParty/imgui-1.50)
+set (THIRD_PARTY_SOURCES ${THIRD_PARTY_SOURCES}
+    thirdParty/imgui-1.50/imgui.cpp
+    thirdParty/imgui-1.50/imgui_draw.cpp
+    thirdParty/imgui-1.50/imgui_impl_glfw_gl3.cpp)
+## end imgui
+
 ## set compiler flags
 set (CMAKE_CXX_STANDARD 11)
 set (CXX_STANDARD_REQUIRED ON)

@@ -16,6 +16,7 @@ namespace kalsengi
             void            loadShader (std::string pathToSrc, GLenum shaderType);
             void            compile ();
             void            use ();
+            GLuint          id ();
         protected:
             std::string     readFile (std::string path);
             bool            compileErrors (GLuint shaderID, GLenum shaderType);
