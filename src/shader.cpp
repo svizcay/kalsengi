@@ -8,39 +8,58 @@
 using namespace kalsengi;
 using namespace std;
 
+GLuint Shader::compileShader (string pathToSrc, GLenum shaderType)
+{
+    string src      = readFile(pathToSrc);
+    GLuint shader   = glCreateShader (shaderType);
+    const char * sourceAddress = src.c_str();
+    glShaderSource (shader, 1, &sourceAddress, nullptr);
+    glCompileShader (shader);
+
+    return shader;
+}
+
+GLuint Shader::linkProgram (const vector<GLuint> & shaders)
+{
+    GLuint program = glCreateProgram ();
+
+    for (auto & shader : shaders) {
+        glAttachShader (program, shader);
+    }
+    glLinkProgram (program);
+
+    return program;
+}
+
 Shader::Shader (string pathToVertShader, string pathToFragShader)
 {
-    // read vertex shader
-    string vertexShaderSrc = readFile(pathToVertShader);
-    GLuint vertexShader = glCreateShader (GL_VERTEX_SHADER);
-    const char * sourceAddress = vertexShaderSrc.c_str();
-    glShaderSource (vertexShader, 1, &sourceAddress, nullptr);
-    glCompileShader (vertexShader);
+
+    // shaderPaths[Type::VERTEX]   = pathToVertShader;
+    // shaderPaths[Type::FRAGMENT] = pathToFragShader;
+
+    shaderPaths[GL_VERTEX_SHADER]   = pathToVertShader;
+    shaderPaths[GL_FRAGMENT_SHADER] = pathToFragShader;
+
+    GLuint vertexShader    = compileShader (pathToVertShader, GL_VERTEX_SHADER);
+    GLuint fragmentShader  = compileShader (pathToFragShader, GL_FRAGMENT_SHADER);
+
 
     if (!compileErrors (vertexShader, GL_VERTEX_SHADER)) {
-
-        string fragmentShaderSrc = readFile(pathToFragShader);
-        GLuint fragmentShader = glCreateShader (GL_FRAGMENT_SHADER);
-        sourceAddress = fragmentShaderSrc.c_str();
-        glShaderSource (fragmentShader, 1, &sourceAddress, nullptr);
-        glCompileShader (fragmentShader);
-
         if (!compileErrors (fragmentShader, GL_FRAGMENT_SHADER)) {
-            GLuint program = glCreateProgram ();
-            glAttachShader (program, vertexShader);
-            glAttachShader (program, fragmentShader);
-            glLinkProgram (program);
+            
+            vector<GLuint> shaders;
+            shaders.push_back(vertexShader);
+            shaders.push_back(fragmentShader);
+            GLuint program = linkProgram(shaders);
 
             if (!linkErrors (program)) {
                 _programID = program;
-
-                glDeleteShader (vertexShader);
-                glDeleteShader (fragmentShader);
             }
-        } else {
-            glDeleteShader (vertexShader);
         }
     }
+
+    glDeleteShader (vertexShader);
+    glDeleteShader (fragmentShader);
 }
 
 std::string Shader::readFile (std::string path)
@@ -53,7 +72,7 @@ std::string Shader::readFile (std::string path)
         strStream << file.rdbuf ();
 
         file.close();
-        
+
         content = strStream.str();
     } else {
         cerr << "ERROR: unable to open file " << path << "." << endl;
@@ -119,4 +138,26 @@ void Shader::use ()
 GLuint Shader::id ()
 {
     return _programID;
+}
+
+void Shader::reload ()
+{
+    if (_programID != 0) {
+        glDeleteProgram (_programID);
+        _programID = 0;
+    }
+
+    vector<GLuint> shaders;
+
+    for (auto iter = shaderPaths.begin(); iter != shaderPaths.end(); iter++) {
+        GLuint shader = compileShader(iter->second, iter->first);
+        if (!compileErrors (shader, iter->first)) {
+            shaders.push_back(shader);
+        }
+    }
+
+    GLuint program = linkProgram(shaders);
+    if (!linkErrors (program)) {
+        _programID = program;
+    }
 }

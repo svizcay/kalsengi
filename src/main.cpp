@@ -75,6 +75,14 @@ int main (int/*argc*/, char* /*argv*/[])
 
     while ( !glfwWindowShouldClose (window.context) ) {
 
+        // temporal. check if we need to reload shaders
+        // TODO: check what happens now with uniform locations and thing like that
+        if (glfwGetKey (window.context, GLFW_KEY_F5) == GLFW_PRESS) {
+            cout << "reloading shaders" << endl;
+            shader.reload ();
+            shader.use ();
+        }
+
         kalsengi::Time::update ();
 
         float greenValue = sin (kalsengi::Time::getAbsTime ()) / 2.0f + 0.5f;
