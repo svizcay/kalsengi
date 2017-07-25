@@ -70,6 +70,11 @@ int main (int/*argc*/, char* /*argv*/[])
 
     GLint colorLoc = glGetUniformLocation (shader.id (), "color");
 
+    // shader.setUniform (1, 1.0f);
+    shader.setUniform ("asdf1", true);
+    shader.setUniform ("asdf2", 1);
+    shader.setUniform ("asdf3", 1.1f);
+
     // ImGui binding setup
     ImGui_ImplGlfwGL3_Init (window.context, true);
 

@@ -161,3 +161,18 @@ void Shader::reload ()
         _programID = program;
     }
 }
+
+void Shader::setUniform (GLint loc, bool value)
+{
+    glUniform1i (loc, static_cast<int> (value));
+}
+
+void Shader::setUniform (GLint loc, int value)
+{
+    glUniform1i (loc, value);
+}
+
+void Shader::setUniform (GLint loc, float value)
+{
+    glUniform1f (loc, value);
+}
