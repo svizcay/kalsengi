@@ -9,6 +9,12 @@
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
 
+// include everything from glm (we can also pick up individual things)
+// optional: define GLM_SWIZZLE to enable swizzle operators
+// by doing that compilation takes longer and final binary file will increase its size
+#include <glm/glm.hpp>  
+#include <glm/gtc/matrix_transform.hpp>
+
 
 using namespace std;
 
@@ -74,6 +80,21 @@ int main (int/*argc*/, char* /*argv*/[])
     shader.setUniform ("asdf1", true);
     shader.setUniform ("asdf2", 1);
     shader.setUniform ("asdf3", 1.1f);
+
+    // translate values are in the last row
+    // that means values matrices are col-major (the last col is the one with the translations)
+    glm::mat4 model = glm::translate ( glm::mat4(1.0f), glm::vec3 (1.0f, 2.0f, 3.0f) ); 
+    glm::vec3 point (0.0f);
+
+    glm::vec3 translatedPoint = model * glm::vec4(point, 1.0f);
+    cout << translatedPoint.x << translatedPoint.y << translatedPoint.z << endl;
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            cout << model[i][j] << " ";
+        }
+        cout << endl;
+    }
 
     // ImGui binding setup
     ImGui_ImplGlfwGL3_Init (window.context, true);

@@ -16,6 +16,10 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND NOT WIN32)
 endif ()
 ## end glad
 
+## glm
+include_directories (thirdParty/glm-0.9.8.4)
+## end glm
+
 ## imgui
 include_directories (thirdParty/imgui-1.50)
 set (THIRD_PARTY_SOURCES ${THIRD_PARTY_SOURCES}
