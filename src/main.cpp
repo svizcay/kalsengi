@@ -12,7 +12,8 @@
 // include everything from glm (we can also pick up individual things)
 // optional: define GLM_SWIZZLE to enable swizzle operators
 // by doing that compilation takes longer and final binary file will increase its size
-#include <glm/glm.hpp>  
+// glm uses radians by default (glu uses degrees)
+#include <glm/matrix.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 
@@ -83,11 +84,17 @@ int main (int/*argc*/, char* /*argv*/[])
 
     // translate values are in the last row
     // that means values matrices are col-major (the last col is the one with the translations)
-    glm::mat4 model = glm::translate ( glm::mat4(1.0f), glm::vec3 (1.0f, 2.0f, 3.0f) ); 
+    glm::mat4 model = glm::translate ( glm::mat4(1.0f), glm::vec3 (0.25f, 0.25f, 0.0f) ); 
     glm::vec3 point (0.0f);
+
+    // when using glm::translate, rotate, scale, etc, glm left multiply the given matrix by the new matrix that is being created
+    // example: glm::mat4 model = glm::rotate ( translationMatrix , angle, direction ) is equivalent to model = translation * rotation;
+    // BE REALLY CAREFUL HERE...glm::translate right multiply the given matrix by a translation matrix
 
     glm::vec3 translatedPoint = model * glm::vec4(point, 1.0f);
     cout << translatedPoint.x << translatedPoint.y << translatedPoint.z << endl;
+
+    shader.setUniform ("model", model);
 
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {

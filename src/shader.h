@@ -7,6 +7,8 @@
 #include <iostream>
 #include <glad/glad.h>
 
+#include <glm/mat4x4.hpp>
+
 namespace kalsengi
 {
 
@@ -56,6 +58,7 @@ namespace kalsengi
             void            setUniform (GLint loc, bool value);
             void            setUniform (GLint loc, int value);
             void            setUniform (GLint loc, float value);
+            void            setUniform (GLint loc, glm::mat4 value);
 
     };
 

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace kalsengi;
 using namespace std;
@@ -175,4 +176,10 @@ void Shader::setUniform (GLint loc, int value)
 void Shader::setUniform (GLint loc, float value)
 {
     glUniform1f (loc, value);
+}
+
+void Shader::setUniform (GLint loc, glm::mat4 value)
+{
+    // 3rd parameter: GL_FALSE -> do not given transpose matrix
+    glUniformMatrix4fv (loc, 1, GL_FALSE, glm::value_ptr(value));
 }
