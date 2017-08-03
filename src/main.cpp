@@ -176,9 +176,11 @@ int main (int/*argc*/, char* /*argv*/[])
         ImGui_ImplGlfwGL3_NewFrame ();
 
         {
-            ImGui::Text ("hello world");
+            ImGui::Text ("camera pos: %.2f %.2f %.2f", camera._position.x, camera._position.y, camera._position.z);
 
-            // if (ImGui::ColorEdit3("MyColor"
+            if (ImGui::ColorEdit3("background", backgroundColor)) {
+                window.setClearColor(backgroundColor);
+            }
         }
 
         ImGui::Render ();

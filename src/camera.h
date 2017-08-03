@@ -1,6 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H 
 
+#include <string>
+
 #include <glm/mat4x4.hpp>
 #include "imgui.h"
 
@@ -16,9 +18,8 @@ namespace kalsengi
             glm::mat4   view ();
             bool        isDirty ();
 
-
-        private:
             glm::vec3   _position;
+        private:
             glm::vec3   _forward;
             glm::vec3   _up;
 
