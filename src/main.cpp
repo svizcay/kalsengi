@@ -5,6 +5,7 @@
 #include "logger.h"
 #include "shader.h"
 #include "time.h"
+#include "camera.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
@@ -19,7 +20,10 @@
 
 using namespace std;
 
-void processInput (GLFWwindow * window);
+// void processInput (GLFWwindow * window);
+// void keyboardCallback (GLFWwindow * window, int key, int scancode, int action, int mods);
+
+unsigned long frameCounter = 0;
 
 int main (int/*argc*/, char* /*argv*/[])
 {
@@ -31,6 +35,9 @@ int main (int/*argc*/, char* /*argv*/[])
     const char windowTitle[] = "k a l s e n g i";
     kalsengi::Window window (windowWidth, windowHeight, windowTitle);
     window.queryOpenGLInfo ();
+
+    // test
+    // glfwSetKeyCallback (window.context, keyboardCallback);
 
     // TODO: update path using cmake path
     kalsengi::Shader shader ("../src/shaders/01.vert.glsl", "../src/shaders/01.frag.glsl");
@@ -77,6 +84,8 @@ int main (int/*argc*/, char* /*argv*/[])
 
     GLint colorLoc = glGetUniformLocation (shader.id (), "color");
 
+    // GLint viewLoc = glGetUniformLocation (shader.id (), "view");
+
     // shader.setUniform (1, 1.0f);
     shader.setUniform ("asdf1", true);
     shader.setUniform ("asdf2", 1);
@@ -92,13 +101,28 @@ int main (int/*argc*/, char* /*argv*/[])
     // BE REALLY CAREFUL HERE...glm::translate right multiply the given matrix by a translation matrix
 
     glm::vec3 translatedPoint = model * glm::vec4(point, 1.0f);
-    cout << translatedPoint.x << translatedPoint.y << translatedPoint.z << endl;
+    cout << translatedPoint.x << " " << translatedPoint.y << " " << translatedPoint.z << endl;
 
     shader.setUniform ("model", model);
 
+    kalsengi::Camera camera;
+
+    glm::mat4 cameraView = camera.view();
+    shader.setUniform ("view", camera.view());
+
+    glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)windowWidth / windowHeight, 0.1f, 100.f);
+    shader.setUniform ("projection", projection);
+
+    translatedPoint = cameraView * glm::vec4(translatedPoint, 1.0f);
+    cout << translatedPoint.x << " " << translatedPoint.y << " " << translatedPoint.z << endl;
+
+    translatedPoint = projection * glm::vec4(translatedPoint, 1.0f);
+    cout << translatedPoint.x << " " << translatedPoint.y << " " << translatedPoint.z << endl;
+
+
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            cout << model[i][j] << " ";
+            cout << cameraView[i][j] << " ";
         }
         cout << endl;
     }
@@ -106,7 +130,23 @@ int main (int/*argc*/, char* /*argv*/[])
     // ImGui binding setup
     ImGui_ImplGlfwGL3_Init (window.context, true);
 
+    ImGuiIO& io = ImGui::GetIO();
+
     while ( !glfwWindowShouldClose (window.context) ) {
+
+        glfwPollEvents ();
+
+        camera.update ();
+
+        if (camera.isDirty()) {
+            cout << frameCounter << " updating camera!!" << endl;
+            shader.setUniform ("view", camera.view());
+        }
+
+        if (io.KeysDown[GLFW_KEY_ESCAPE]) {
+            cout << frameCounter << " Esc was pressed!!" << endl;
+            glfwSetWindowShouldClose (window.context, true);
+        }
 
         // temporal. check if we need to reload shaders
         // TODO: check what happens now with uniform locations and thing like that
@@ -122,7 +162,7 @@ int main (int/*argc*/, char* /*argv*/[])
 
         glUniform4f (colorLoc, 0.0f, greenValue, 0.0f, 1.0f);
 
-        processInput (window.context);
+        // processInput (window.context);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -139,7 +179,8 @@ int main (int/*argc*/, char* /*argv*/[])
         ImGui::Render ();
 
         glfwSwapBuffers (window.context);
-        glfwPollEvents ();
+
+        frameCounter++;
     }
 
     ImGui_ImplGlfwGL3_Shutdown ();
@@ -147,9 +188,22 @@ int main (int/*argc*/, char* /*argv*/[])
     return EXIT_SUCCESS;
 }
 
-void processInput (GLFWwindow * window)
-{
-    if (glfwGetKey (window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose (window, true);
-    }
-}
+// void keyboardCallback (GLFWwindow * window, int key, int /*scancode*/, int action, int /*mods*/)
+// {
+//     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+//         glfwSetWindowShouldClose (window, true);
+//     } else if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+//         cout << frameCounter << " A was pressed callback!!" << endl;
+//     }
+// }
+
+// void processInput (GLFWwindow * window)
+// {
+//     if (glfwGetKey (window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+//         glfwSetWindowShouldClose (window, true);
+//     }
+// 
+//     if (glfwGetKey (window, GLFW_KEY_A) == GLFW_PRESS) {
+//         cout << frameCounter << " A was pressed" << endl;
+//     }
+// }

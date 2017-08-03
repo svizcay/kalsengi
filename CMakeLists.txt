@@ -56,6 +56,7 @@ set (PROJECT_SOURCES src/main.cpp
                      src/window.cpp
                      src/logger.cpp
                      src/shader.cpp
+                     src/camera.cpp
                      src/time.cpp)
 set (PROJECT_LIBRARIES glfw)
 

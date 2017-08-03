@@ -1,5 +1,6 @@
 build
 thirdParty
+tags
 
 *.swp
 *.swo
