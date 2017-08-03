@@ -36,6 +36,9 @@ int main (int/*argc*/, char* /*argv*/[])
     kalsengi::Window window (windowWidth, windowHeight, windowTitle);
     window.queryOpenGLInfo ();
 
+    float backgroundColor[] = {0.5f, 0.5f, 0.5f};
+    window.setClearColor(backgroundColor);
+
     // test
     // glfwSetKeyCallback (window.context, keyboardCallback);
 
@@ -139,7 +142,7 @@ int main (int/*argc*/, char* /*argv*/[])
         camera.update ();
 
         if (camera.isDirty()) {
-            cout << frameCounter << " updating camera!!" << endl;
+            // cout << frameCounter << " updating camera!!" << endl;
             shader.setUniform ("view", camera.view());
         }
 
@@ -174,6 +177,8 @@ int main (int/*argc*/, char* /*argv*/[])
 
         {
             ImGui::Text ("hello world");
+
+            // if (ImGui::ColorEdit3("MyColor"
         }
 
         ImGui::Render ();

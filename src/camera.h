@@ -11,10 +11,7 @@ namespace kalsengi
         ImGuiIO& io;
 
         public:
-            Camera (
-                    glm::vec3 pos = glm::vec3(0.f, 0.f, 5.f),
-                    glm::vec3 target = glm::vec3(0.f, 0.f, 0.f),
-                    glm::vec3 up = glm::vec3(0.f, 1.f, 0.f));
+            Camera (glm::vec3 pos = glm::vec3(0.f, 0.f, 5.f));
             void        update ();
             glm::mat4   view ();
             bool        isDirty ();
@@ -22,7 +19,7 @@ namespace kalsengi
 
         private:
             glm::vec3   _position;
-            glm::vec3   _target;
+            glm::vec3   _forward;
             glm::vec3   _up;
 
             glm::mat4   _viewMat;

@@ -23,6 +23,7 @@ namespace kalsengi
             Window (uint width, uint height, const char * title, bool fullscreen = false);
             ~Window ();
             void setClearColor (float r, float g, float b);
+            void setClearColor (float * rgb);
             void queryOpenGLInfo ();
             bool isFine ();
 

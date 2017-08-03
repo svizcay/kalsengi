@@ -60,6 +60,11 @@ void Window::setClearColor (float r, float g, float b)
     glClearColor (r, g, b, 1.0f);
 }
 
+void Window::setClearColor (float * rgb)
+{
+    glClearColor (rgb[0], rgb[1], rgb[2], 1.0f);
+}
+
 void Window::windowResizeCallback (GLFWwindow * /*context*/, int width, int height)
 {
     cout << "new window's size: " << width << "x" << height << endl;
