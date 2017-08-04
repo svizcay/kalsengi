@@ -1,12 +1,18 @@
 cmake_minimum_required (VERSION 3.1)
-project (kalsengi VERSION 1.0)
+
+# cmake_policy(PUSH)
+# cmake_policy(POP)
+# cmake_policy(SET CMP0048 OLD)
+project (kalsengi)
+#set(PROJECT_VERSION_MAJOR "1")
+#set(PROJECT_VERSION_MINOR "0")
 
 ## third party libraries
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(thirdParty/glfw-3.2.1)
-include_directories (thirdParty/glfw-3.2.1/include)
+add_subdirectory(thirdParty/glfw)
+include_directories (thirdParty/glfw/include)
 
 ## glad
 include_directories (thirdParty/glad/include)
@@ -17,16 +23,24 @@ endif ()
 ## end glad
 
 ## glm
-include_directories (thirdParty/glm-0.9.8.4)
+include_directories (thirdParty/glm)
 ## end glm
 
 ## imgui
-include_directories (thirdParty/imgui-1.50)
+include_directories (thirdParty/imgui)
 set (THIRD_PARTY_SOURCES ${THIRD_PARTY_SOURCES}
-    thirdParty/imgui-1.50/imgui.cpp
-    thirdParty/imgui-1.50/imgui_draw.cpp
-    thirdParty/imgui-1.50/imgui_impl_glfw_gl3.cpp)
+    thirdParty/imgui/imgui.cpp
+    thirdParty/imgui/imgui_draw.cpp)
+    #thirdParty/imgui/examples/opengl3_example/imgui_impl_glfw_gl3.cpp)
 ## end imgui
+
+## boost
+find_package(Boost)
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+else ()
+    message (WARNING "Boost was not found. Please download and install it.")
+endif ()
 
 ## set compiler flags
 set (CMAKE_CXX_STANDARD 11)
@@ -57,7 +71,8 @@ set (PROJECT_SOURCES src/main.cpp
                      src/logger.cpp
                      src/shader.cpp
                      src/camera.cpp
-                     src/time.cpp)
+                     src/time.cpp
+                     src/imgui_impl_glfw_gl3.cpp)
 set (PROJECT_LIBRARIES glfw)
 
 add_executable (${PROJECT_NAME} ${PROJECT_SOURCES}

@@ -9,8 +9,8 @@ namespace kalsengi
 {
     class Window {
         protected:
-            uint                    _width;
-            uint                    _height;
+            unsigned                    _width;
+			unsigned                    _height;
             std::string             _title;
             bool                    _okay;
 
@@ -20,7 +20,7 @@ namespace kalsengi
             static void errorCallback (int error, const char * description);
 
         public:
-            Window (uint width, uint height, const char * title, bool fullscreen = false);
+            Window (unsigned width, unsigned height, const char * title, bool fullscreen = false);
             ~Window ();
             void setClearColor (float r, float g, float b);
             void setClearColor (float * rgb);

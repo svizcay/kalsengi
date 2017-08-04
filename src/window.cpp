@@ -5,7 +5,7 @@ using namespace kalsengi;
 using namespace std;
 
 
-Window::Window (uint width, uint height, const char * title, bool fullscreen) :
+Window::Window (unsigned width, unsigned height, const char * title, bool fullscreen) :
     _width(width), _height(height), _title(title), _okay(false)
 {
     cout << "stating GLFW " << glfwGetVersionString () << endl;
