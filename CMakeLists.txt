@@ -41,6 +41,13 @@ if (Boost_FOUND)
 else ()
     message (WARNING "Boost was not found. Please download and install it.")
 endif ()
+## end boost
+
+## assimp
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(thirdParty/assimp)
+## end assimp
+
 
 ## set compiler flags
 set (CMAKE_CXX_STANDARD 11)
@@ -73,7 +80,7 @@ set (PROJECT_SOURCES src/main.cpp
                      src/camera.cpp
                      src/time.cpp
                      src/imgui_impl_glfw_gl3.cpp)
-set (PROJECT_LIBRARIES glfw)
+set (PROJECT_LIBRARIES glfw assimp)
 
 add_executable (${PROJECT_NAME} ${PROJECT_SOURCES}
                                 ${THIRD_PARTY_SOURCES})
