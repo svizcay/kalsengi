@@ -44,7 +44,7 @@ endif ()
 ## end boost
 
 ## assimp
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+# set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(thirdParty/assimp)
 ## end assimp
 
@@ -56,6 +56,7 @@ set (CXX_STANDARD_REQUIRED ON)
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     # set (warnings "-Wall -Wextra -Wpedantic -Werror")
+    # set (warnings "-Wall -Wextra")  # had to turn off pedantic in order to compile glad
     set (warnings "-Wall -Wextra -Werror")  # had to turn off pedantic in order to compile glad
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     set (warnings "/W4 /WX /EHsc")
@@ -79,6 +80,8 @@ set (PROJECT_SOURCES src/main.cpp
                      src/shader.cpp
                      src/camera.cpp
                      src/time.cpp
+                     src/mesh.cpp
+                     src/quad.cpp
                      src/imgui_impl_glfw_gl3.cpp)
 set (PROJECT_LIBRARIES glfw assimp)
 

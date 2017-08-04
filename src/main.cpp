@@ -6,6 +6,7 @@
 #include "shader.h"
 #include "time.h"
 #include "camera.h"
+#include "mesh.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
@@ -135,6 +136,23 @@ int main (int/*argc*/, char* /*argv*/[])
 
     ImGuiIO& io = ImGui::GetIO();
 
+    std::vector<kalsengi::Vertex> triangleVertices;
+    std::vector<unsigned> indices;
+    std::vector<kalsengi::Texture> textures;
+
+    kalsengi::Vertex vertexA, vertexB, vertexC;
+    vertexA.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+    vertexB.pos = glm::vec3(1.0f, -1.0f, 0.0f);
+    vertexC.pos = glm::vec3(1.0f, 0.0f, 0.0f);
+    triangleVertices.push_back(vertexA);
+    triangleVertices.push_back(vertexB);
+    triangleVertices.push_back(vertexC);
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(2);
+
+    kalsengi::Mesh mesh (triangleVertices, indices, textures);
+
     while ( !glfwWindowShouldClose (window.context) ) {
 
         glfwPollEvents ();
@@ -169,8 +187,11 @@ int main (int/*argc*/, char* /*argv*/[])
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glBindVertexArray (vao);
         glDrawArrays (GL_TRIANGLES, 0, 3);  // 2nd parameter: starting index. 3rd parameter: how many vertices
         glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // mesh.draw (shader);
 
 
         ImGui_ImplGlfwGL3_NewFrame ();
