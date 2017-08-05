@@ -73,5 +73,8 @@ void Mesh::draw (Shader shader)
 
     glBindVertexArray (vao);
     glDrawElements (GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+    // set default values back again
+    glActiveTexture (0);
     glBindVertexArray (0);
 }

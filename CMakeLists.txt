@@ -11,6 +11,9 @@ project (kalsengi)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+# option(GLFW_BUILD_DOCS OFF)
+# option(GLFW_BUILD_EXAMPLES OFF)
+# option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(thirdParty/glfw)
 include_directories (thirdParty/glfw/include)
 
@@ -44,8 +47,14 @@ endif ()
 ## end boost
 
 ## assimp
-# set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+# option(ASSIMP_BUILD_ASSIMP_TOOLS "If the supplementary tools for Assimp are built in addition to the library." OFF)
+# option(ASSIMP_BUILD_SAMPLES "If the official samples are built as well (needs Glut)." OFF)
+# option(ASSIMP_BUILD_TESTS "If the test suite for Assimp is built in addition to the library." OFF)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_SAMPLES OFF CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 add_subdirectory(thirdParty/assimp)
+include_directories (thirdParty/assimp/include)
 ## end assimp
 
 ## stb image loader
@@ -62,7 +71,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL
     # set (warnings "-Wall -Wextra -Wpedantic -Werror")
     # set (warnings "-Wall -Wextra")  # had to turn off pedantic in order to compile glad
     set (warnings "-Wall -Wextra -Werror")  # had to turn off pedantic in order to compile glad
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC") #if (MSVC)
     set (warnings "/W4 /WX /EHsc")
 endif()
 
@@ -85,6 +94,7 @@ set (PROJECT_SOURCES src/main.cpp
                      src/camera.cpp
                      src/time.cpp
                      src/mesh.cpp
+                     src/model.cpp
                      src/quad.cpp
                      src/imgui_impl_glfw_gl3.cpp)
 set (PROJECT_LIBRARIES glfw assimp)
