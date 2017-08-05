@@ -1,5 +1,7 @@
 #include "mesh.h"
 
+#include <sstream>
+
 using namespace kalsengi;
 using namespace std;
 
@@ -47,8 +49,28 @@ void Mesh::setupMesh ()
     glBindVertexArray (0);
 }
 
-void Mesh::draw (Shader /*shader*/)
+void Mesh::draw (Shader shader)
 {
+    unsigned diffuseNr = 1;
+    unsigned specularNr = 1;
+
+    // bind the appropriate textures
+    for (unsigned i = 0; i < textures.size(); i++) {
+        // activate texture unit before binding texture
+        glActiveTexture (GL_TEXTURE0 + i);
+        glBindTexture (GL_TEXTURE_2D, textures[i].id);
+
+        // set uniform value (sampler2D
+        stringstream ss;
+        if (textures[i].type == "texture_diffuse") {
+            ss << textures[i].type << diffuseNr++;
+        } else if (textures[i].type == "texture_specular") {
+            ss << textures[i].type << specularNr++;
+        }
+
+        shader.setUniform (ss.str().c_str(), i);
+    }
+
     glBindVertexArray (vao);
     glDrawElements (GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray (0);

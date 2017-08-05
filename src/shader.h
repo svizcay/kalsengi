@@ -57,6 +57,7 @@ namespace kalsengi
 
             void            setUniform (GLint loc, bool value);
             void            setUniform (GLint loc, int value);
+            void            setUniform (GLint loc, unsigned value);
             void            setUniform (GLint loc, float value);
             void            setUniform (GLint loc, glm::mat4 value);
 

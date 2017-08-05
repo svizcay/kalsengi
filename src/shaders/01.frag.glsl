@@ -6,6 +6,15 @@ uniform bool    asdf1;
 uniform int     asdf2;
 uniform float   asdf3;
 
+// add more if required
+uniform sampler2D texture_diffuse1;
+uniform sampler2D texture_diffuse2;
+uniform sampler2D texture_diffuse3;
+
+// add more if required
+uniform sampler2D texture_specular1;
+uniform sampler2D texture_specular2;
+
 out vec4 fragColor;
 
 void main ()

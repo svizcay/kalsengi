@@ -173,6 +173,11 @@ void Shader::setUniform (GLint loc, int value)
     glUniform1i (loc, value);
 }
 
+void Shader::setUniform (GLint loc, unsigned value)
+{
+    glUniform1i (loc, value);
+}
+
 void Shader::setUniform (GLint loc, float value)
 {
     glUniform1f (loc, value);
