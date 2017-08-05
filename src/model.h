@@ -18,6 +18,9 @@ namespace kalsengi
         private:
             std::vector<Mesh> meshes;
 
+            void loadModel (const char * path);
+            // void processNode (
+
     };
 
 }
