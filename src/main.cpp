@@ -97,7 +97,7 @@ int main (int/*argc*/, char* /*argv*/[])
 
     // translate values are in the last row
     // that means values matrices are col-major (the last col is the one with the translations)
-    glm::mat4 model = glm::translate ( glm::mat4(1.0f), glm::vec3 (0.25f, 0.25f, 0.0f) ); 
+    glm::mat4 model = glm::translate ( glm::mat4(1.0f), glm::vec3 (0.25f, 0.25f, 0.0f) );
     glm::vec3 point (0.0f);
 
     // when using glm::translate, rotate, scale, etc, glm left multiply the given matrix by the new matrix that is being created
@@ -191,7 +191,7 @@ int main (int/*argc*/, char* /*argv*/[])
         glDrawArrays (GL_TRIANGLES, 0, 3);  // 2nd parameter: starting index. 3rd parameter: how many vertices
         glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        // mesh.draw (shader);
+        mesh.draw (shader);
 
 
         ImGui_ImplGlfwGL3_NewFrame ();
@@ -230,7 +230,7 @@ int main (int/*argc*/, char* /*argv*/[])
 //     if (glfwGetKey (window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 //         glfwSetWindowShouldClose (window, true);
 //     }
-// 
+//
 //     if (glfwGetKey (window, GLFW_KEY_A) == GLFW_PRESS) {
 //         cout << frameCounter << " A was pressed" << endl;
 //     }

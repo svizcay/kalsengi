@@ -14,8 +14,14 @@ void Mesh::setupMesh ()
     glGenVertexArrays (1, &vao);
     glGenBuffers (1, &vbo);
     glGenBuffers (1, &ebo);
-    
+
     glBindVertexArray (vao);
+
+    glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData (GL_ELEMENT_ARRAY_BUFFER,
+            indices.size() * sizeof(unsigned),
+            &indices[0],
+            GL_STATIC_DRAW);
 
     glBindBuffer (GL_ARRAY_BUFFER, vbo);
     glBufferData (GL_ARRAY_BUFFER,
@@ -23,11 +29,6 @@ void Mesh::setupMesh ()
             &vertices[0],
             GL_STATIC_DRAW);
 
-    glBindBuffer (GL_ARRAY_BUFFER, ebo);
-    glBufferData (GL_ARRAY_BUFFER,
-            indices.size() * sizeof(unsigned),
-            &indices[0],
-            GL_STATIC_DRAW);
 
     // TODO: make sure to follow this convention
     // layout 0: pos
