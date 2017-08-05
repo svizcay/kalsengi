@@ -49,7 +49,7 @@ add_subdirectory(thirdParty/assimp)
 ## end assimp
 
 ## stb image loader
-add_subdirectory(thirdParty/stb)
+include_directories (thirdParty/stb)
 ## end std
 
 
