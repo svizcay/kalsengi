@@ -48,6 +48,10 @@ endif ()
 add_subdirectory(thirdParty/assimp)
 ## end assimp
 
+## stb image loader
+add_subdirectory(thirdParty/stb)
+## end std
+
 
 ## set compiler flags
 set (CMAKE_CXX_STANDARD 11)
