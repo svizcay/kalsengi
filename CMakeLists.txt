@@ -105,6 +105,12 @@ add_executable (${PROJECT_NAME} ${PROJECT_SOURCES}
 target_link_libraries (${PROJECT_NAME} ${PROJECT_LIBRARIES}
                                        ${GLAD_LIBRARY_DEPENDENCIES})
 
+## test library to use opengl within unity
+add_library (glReadPixels SHARED 
+    src/glReadPixels.cpp
+    ${THIRD_PARTY_SOURCES})
+target_link_libraries (glReadPixels glfw ${GLAD_LIBRARY_DEPENDENCIES})
+
 enable_testing ()
 add_test (kalsengiTest ${PROJECT_NAME}) # add_test (testName target)
 
