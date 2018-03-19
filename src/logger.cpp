@@ -3,7 +3,7 @@
 #include <fstream>
 #include <ctime>
 #include <chrono>
-#include <boost/format.hpp>
+//#include <boost/format.hpp>
 
 using namespace kalsengi;
 using namespace std;
@@ -22,7 +22,8 @@ Logger::Logger (string filePath) : _filePath(filePath)
 
         file.close();
     } else {
-        cerr << boost::format(ERROR_FILE_NOT_FOUND_STR_FORMAT) % filePath << endl;
+        //cerr << boost::format(ERROR_FILE_NOT_FOUND_STR_FORMAT) % filePath << endl;
+		cerr << filePath << " not found\n";
     }
 }
 
@@ -36,6 +37,7 @@ void Logger::log (string msg)
 
         file.close();
     } else {
-        cerr << boost::format(ERROR_FILE_NOT_FOUND_STR_FORMAT) % _filePath << endl;
+        //cerr << boost::format(ERROR_FILE_NOT_FOUND_STR_FORMAT) % _filePath << endl;
+		cerr << _filePath << " not found\n";
     }
 }

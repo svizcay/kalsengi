@@ -86,7 +86,18 @@ set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${warnings})
 
 
 ## own project
+set_property (GLOBAL PROPERTY USE_FOLDERS ON)   # look for more documentation about this
 include_directories (include)
+
+# group headers files to display them inside visual studio solution
+set (HEADERS src/*.hpp src/*h)
+message (${HEADERS})
+source_group ("Headers" FILES ${HEADERS})
+
+# do the same for shaders
+set (SHADERS src/shaders)
+source_group ("Shaders" FILES ${SHADERS})
+
 set (PROJECT_SOURCES src/main.cpp
                      src/window.cpp
                      src/logger.cpp
