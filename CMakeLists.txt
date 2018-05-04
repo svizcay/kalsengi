@@ -98,12 +98,15 @@ set_property (GLOBAL PROPERTY USE_FOLDERS ON)   # look for more documentation ab
 include_directories (include)
 
 # group headers files to display them inside visual studio solution
-set (HEADERS src/*.hpp src/*h)
-message (${HEADERS})
+# to make it work, we also need to list these files as dependecies for a certain executable or library
+#set (HEADERS "src/*.hpp" "src/*h")
+file (GLOB HEADERS "src/*.hpp" "src/*h")
+#message (${HEADERS})
 source_group ("Headers" FILES ${HEADERS})
 
 # do the same for shaders
-set (SHADERS src/shaders)
+#set (SHADERS src/shaders)
+file (GLOB SHADERS "src/shaders/*")
 source_group ("Shaders" FILES ${SHADERS})
 
 set (PROJECT_SOURCES src/main.cpp
@@ -119,7 +122,10 @@ set (PROJECT_SOURCES src/main.cpp
 set (PROJECT_LIBRARIES glfw assimp)
 
 add_executable (${PROJECT_NAME} ${PROJECT_SOURCES}
-                                ${THIRD_PARTY_SOURCES})
+                                ${THIRD_PARTY_SOURCES}
+                                ${HEADERS}              # if we use source_group before, these headers will be inside kalsengi/headers hierarchy
+                                ${SHADERS}              # if we use source_group before, these headers will be inside kalsengi/shaders hierarchy
+                                )
 
 target_link_libraries (${PROJECT_NAME} ${PROJECT_LIBRARIES}
                                        ${GLAD_LIBRARY_DEPENDENCIES})
