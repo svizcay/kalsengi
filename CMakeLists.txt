@@ -40,9 +40,17 @@ set (THIRD_PARTY_SOURCES ${THIRD_PARTY_SOURCES}
 ## boost
 find_package(Boost)
 if (Boost_FOUND)
+    message (STATUS "Using system wide boost installation")
     include_directories(${Boost_INCLUDE_DIRS})
 else ()
-    message (WARNING "Boost was not found. Please download and install it.")
+    # message (WARNING "Boost was not found. Please download and install it.")
+    set (BOOST_ROOT "thirdParty/boost" CACHE PATH "Boost library path")
+    find_package(Boost)
+    if (Boost_FOUND)
+        message (STATUS "Using thirdParty/boost library")
+    else ()
+        message (WARNING "Boost was not found")
+    endif ()
 endif ()
 ## end boost
 

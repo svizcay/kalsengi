@@ -13,3 +13,6 @@
 [submodule "thirdParty/stb"]
 	path = thirdParty/stb
 	url = https://github.com/nothings/stb.git
+[submodule "thirdParty/boost"]
+	path = thirdParty/boost
+	url = git@github.com:boostorg/boost.git
